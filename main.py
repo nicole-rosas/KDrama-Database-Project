@@ -12,8 +12,11 @@ def all_kdramas(cursor):
     try:
         cursor.execute(dramas)
         rows = cur.fetchall() #new
-        for row in rows:
-            print(row)
+        if cur.rowcount == 0:
+            print("no results!")
+        else:
+            for row in rows:
+                print(row)
     except pymysql.Error as e:
         print('SELECT failed %s Error: %d: %s' % (dramas, e.args[0], e.args[1]))
 
@@ -25,8 +28,11 @@ def all_directors(cursor):
     try:
         cursor.execute(directors)
         rows = cur.fetchall()  # new
-        for row in rows:
-            print(row)
+        if cur.rowcount == 0:
+            print("no results!")
+        else:
+            for row in rows:
+                print(row)
     except pymysql.Error as e:
         print('SELECT failed %s Error: %d: %s' % (directors, e.args[0], e.args[1]))
 
@@ -38,8 +44,11 @@ def all_writers(cursor):
     try:
         cursor.execute(writers)
         rows = cur.fetchall()  # new
-        for row in rows:
-            print(row)
+        if cur.rowcount == 0:
+            print("no results!")
+        else:
+            for row in rows:
+                print(row)
     except pymysql.Error as e:
         print('SELECT failed %s Error: %d: %s' % (writers, e.args[0], e.args[1]))
 
@@ -51,8 +60,11 @@ def all_actors(cursor):
     try:
         cursor.execute(actors)
         rows = cur.fetchall()  # new
-        for row in rows:
-            print(row)
+        if cur.rowcount == 0:
+            print("no results!")
+        else:
+            for row in rows:
+                print(row)
     except pymysql.Error as e:
         print('SELECT failed %s Error: %d: %s' % (actors, e.args[0], e.args[1]))
 
@@ -64,8 +76,11 @@ def all_awards(cursor):
     try:
         cursor.execute(awards)
         rows = cur.fetchall()  # new
-        for row in rows:
-            print(row)
+        if cur.rowcount == 0:
+            print("no results!")
+        else:
+            for row in rows:
+                print(row)
     except pymysql.Error as e:
         print('SELECT failed %s Error: %d: %s' % (awards, e.args[0], e.args[1]))
 
@@ -77,8 +92,11 @@ def all_reviews(cursor):
     try:
         cursor.execute(reviews)
         rows = cur.fetchall()  # new
-        for row in rows:
-            print(row)
+        if cur.rowcount == 0:
+            print("no results!")
+        else:
+            for row in rows:
+                print(row)
     except pymysql.Error as e:
         print('SELECT failed %s Error: %d: %s' % (reviews, e.args[0], e.args[1]))
 
@@ -101,10 +119,12 @@ def filter_menu(fil_menu):
                 cur.execute(read_dtitle)
                 print('results are...')
                 rows = cur.fetchall()  # new
-                for row in rows:
-                    print(row)
+                if cur.rowcount == 0:
+                    print("no results!")
+                else:
+                    for row in rows:
+                        print(row)
             except pymysql.Error as e:
-                print('no results!')
                 print('SELECT failed %s Error: %d: %s' % (read_dtitle, e.args[0], e.args[1]))
 
         elif dra_menu == '2':
@@ -115,10 +135,12 @@ def filter_menu(fil_menu):
                 cur.execute(read_dactor)
                 print('results are...')
                 rows = cur.fetchall()  # new
-                for row in rows:
-                    print(row)
+                if cur.rowcount == 0:
+                    print("no results!")
+                else:
+                    for row in rows:
+                        print(row)
             except pymysql.Error as e:
-                print('no results!')
                 print('SELECT failed %s Error: %d: %s' % (read_dactor, e.args[0], e.args[1]))
 
         elif dra_menu == '3':
@@ -129,10 +151,12 @@ def filter_menu(fil_menu):
                 cur.execute(read_dyear)
                 print('results are...')
                 rows = cur.fetchall()  # new
-                for row in rows:
-                    print(row)
+                if cur.rowcount == 0:
+                    print("no results!")
+                else:
+                    for row in rows:
+                        print(row)
             except pymysql.Error as e:
-                print('no results!')
                 print('SELECT failed %s Error: %d: %s' % (read_dyear, e.args[0], e.args[1]))
 
         elif dra_menu == '4':
@@ -143,10 +167,12 @@ def filter_menu(fil_menu):
                 cur.execute(read_dstation)
                 print('results are...')
                 rows = cur.fetchall()  # new
-                for row in rows:
-                    print(row)
+                if cur.rowcount == 0:
+                    print("no results!")
+                else:
+                    for row in rows:
+                        print(row)
             except pymysql.Error as e:
-                print('no results!')
                 print('SELECT failed %s Error: %d: %s' % (read_dstation, e.args[0], e.args[1]))
 
         elif dra_menu == '5':
@@ -157,10 +183,12 @@ def filter_menu(fil_menu):
                 cur.execute(read_drating)
                 print('results are...')
                 rows = cur.fetchall()  # new
-                for row in rows:
-                    print(row)
+                if cur.rowcount == 0:
+                    print("no results!")
+                else:
+                    for row in rows:
+                        print(row)
             except pymysql.Error as e:
-                print('no results!')
                 print('SELECT failed %s Error: %d: %s' % (read_drating, e.args[0], e.args[1]))
 
         else:
@@ -181,10 +209,12 @@ def filter_menu(fil_menu):
                 cur.execute(read_aname)
                 print('results are...')
                 rows = cur.fetchall()  # new
-                for row in rows:
-                    print(row)
+                if cur.rowcount == 0:
+                    print("no results!")
+                else:
+                    for row in rows:
+                        print(row)
             except pymysql.Error as e:
-                print('no results!')
                 print('SELECT failed %s Error: %d: %s' % (read_aname, e.args[0], e.args[1]))
 
         elif act_menu == '2':
@@ -195,10 +225,12 @@ def filter_menu(fil_menu):
                 cur.execute(read_adrama)
                 print('results are...')
                 rows = cur.fetchall()  # new
-                for row in rows:
-                    print(row)
+                if cur.rowcount == 0:
+                    print("no results!")
+                else:
+                    for row in rows:
+                        print(row)
             except pymysql.Error as e:
-                print('no results!')
                 print('SELECT failed %s Error: %d: %s' % (read_adrama, e.args[0], e.args[1]))
 
         elif act_menu == '3':
@@ -209,10 +241,12 @@ def filter_menu(fil_menu):
                 cur.execute(read_ayear)
                 print('results are...')
                 rows = cur.fetchall()  # new
-                for row in rows:
-                    print(row)
+                if cur.rowcount == 0:
+                    print("no results!")
+                else:
+                    for row in rows:
+                        print(row)
             except pymysql.Error as e:
-                print('no results!')
                 print('SELECT failed %s Error: %d: %s' % (read_ayear, e.args[0], e.args[1]))
         else:
             print('Returning to previous menu...')
@@ -255,6 +289,7 @@ keepRunning = True
 while keepRunning:
     menu = input('Choose a menu option: ')
     if menu == '1': # adds a kdrama
+        all_kdramas(cur)
         print('--------add a new kdrama to the database--------')
         title = input('Type in name of kdrama: ')
         print('If you do not know the following information, press enter to continue')
@@ -343,8 +378,11 @@ while keepRunning:
             except pymysql.Error as e:
                 print('SELECT failed %s Error: %d: %s' % (create_actor_char, e.args[0], e.args[1]))
 
+        all_kdramas(cur)
+
     elif menu == '2':
         print('--------add a new kdrama review--------')
+        all_reviews(cur)
         add_review = input('Type in your review here: ')
         add_kid = input('Type in the drama\' title: ')
         add_uid = input('Type in your username: ')
@@ -357,8 +395,11 @@ while keepRunning:
         except pymysql.Error as e:
             print('SELECT failed %s Error: %d: %s' % (create_review, e.args[0], e.args[1]))
 
+        all_reviews(cur)
+
     elif menu == '3':
         print('---------add an award--------')
+        all_awards(cur)
         drama = input('Type in the drama that won an award: ')
         title = input('Type in title of the award: ')
         year = input('Type in the year the drama won the award: ')
@@ -370,6 +411,8 @@ while keepRunning:
         except pymysql.Error as e:
             # while loop continues and we ask user to try again
             print('SELECT failed %s Error: %d: %s' % (create_award, e.args[0], e.args[1]))
+
+        all_awards(cur)
 
     elif menu == '4':
         all_kdramas(cur)
@@ -399,6 +442,8 @@ while keepRunning:
         except pymysql.Error as e:
             print('SELECT failed %s Error: %d: %s' % (update_kdrama, e.args[0], e.args[1]))
 
+        all_kdramas(cur)
+
     elif menu == '5':
         # print all reviews so the awards can see
         all_reviews(cur)
@@ -424,6 +469,8 @@ while keepRunning:
             print(f'Updating review number\'{up_rid}\'...')
         except pymysql.Error as e:
             print('SELECT failed %s Error: %d: %s' % (update_review, e.args[0], e.args[1]))
+
+        all_reviews(cur)
 
     elif menu == '6':
         # print all awards so the user can see
@@ -451,6 +498,8 @@ while keepRunning:
             print(f'updating {up_dtitle}\'s award...')
         except pymysql.Error as e:
             print('SELECT failed %s Error: %d: %s' % (update_award, e.args[0], e.args[1]))
+
+        all_awards(cur)
 
     elif menu == '7':
         # prints all dramas first, so that user can choose
@@ -480,6 +529,8 @@ while keepRunning:
         else:
             print('Going back to main menu...')
 
+        all_kdramas(cur)
+
     elif menu == '8':
         # print all reviews first, so that user can choose
         all_reviews(cur)
@@ -508,6 +559,8 @@ while keepRunning:
         else:
             print('Going back to main menu...')
 
+        all_reviews(cur)
+
     elif menu == '9': # view all dramas
         all_kdramas(cur)
 
@@ -530,7 +583,8 @@ while keepRunning:
               '(2)actors\n'
               '(3)return to menu')
         fil_menu = input('Choose a menu option: ')
-        filter-menu(fil_menu)
+        
+        filter_menu(fil_menu)
 
     elif menu == '14':
         print('Closing out of program...')
