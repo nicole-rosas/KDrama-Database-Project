@@ -78,10 +78,10 @@ except pymysql.Error as e:
     print('Error: %d: %s' % (e.args[0], e.args[1]))
 
 cur = cnx.cursor()
-
+#print('hi')
 print(f'Welcome {user} to our Kdrama database.')
 print('Here you can:\n'
-      '(1)add a new kdrama to the database\n'  # HELP
+      '(1)add a new kdrama to the database\n'  
       '(2)add a review of a kdrama\n'
       '(3)add an award\n'
       '(4)update kdrama information\n'  # HELP
@@ -92,7 +92,7 @@ print('Here you can:\n'
       '(9)see all kdramas available\n'
       '(10)see all staff\n'
       '(11)see all reviews\n'
-      '(12)select kdramas through filters\n'
+      '(12)select kdramas or actor through filters\n'
       '(13)view everything\n'  # HELP
       '(14)quit program')
 keepRunning = True
@@ -166,12 +166,29 @@ while keepRunning:
             char_1_role = input('Type in the character\'s role')
             # PROCEDURE with title, actor name, actor bday, actor description, character name, character role
 
+            create_actor_char = f'CALL create_character_connect_actor(\'{title}\', \'{act_1_name}\',' \
+                                f' \'{char_1_name}\', \'{char_1_role}\', \'{act_1_birth}\', \'{act_1_desc}\')'
+            try:
+                # executes the procedure
+                cur.execute(create_actor_char)
+            except pymysql.Error as e:
+                # while loop continues and we ask user to try again
+                print('SELECT failed %s Error: %d: %s' % (create_actor_char, e.args[0], e.args[1]))
+
             act_2_name = input('Type in the actor\'s name: ')
             act_2_birth = input('Type in the actor\'s birthday in YYYY-MM-DD format: ')
             act_2_desc = input('Type in the actor\'s description: ')
             char_2_name = input(f'Type in the {act_1_name}\'s character\'s name: ')
             char_2_role = input('Type in the character\'s role')
             # PROCEDURE with title, actor name, actor bday, actor description, character name, character role
+            create_actor_char = f'CALL create_character_connect_actor(\'{title}\', \'{act_2_name}\',' \
+                                f' \'{char_2_name}\', \'{char_2_role}\', \'{act_2_birth}\', \'{act_2_desc}\')'
+            try:
+                # executes the procedure
+                cur.execute(create_actor_char)
+            except pymysql.Error as e:
+                # while loop continues and we ask user to try again
+                print('SELECT failed %s Error: %d: %s' % (create_actor_char, e.args[0], e.args[1]))
 
         else:
             print('if they do not know actor and characters do we make null?')
@@ -212,7 +229,9 @@ while keepRunning:
         print('adding award to database...')
 
     if menu == '4':
+        all_kdramas(cur)
         print('update information of kdrama')
+        up_did = input('Type in the drama id you with to update')
         up_drama = input('Type in the drama you wish to update: ')
         # select drama and show its information
         # ask to rewrite the entire data again?
@@ -251,16 +270,17 @@ while keepRunning:
         print('update awards')
         # we might have to fix awards db... its only for drama when staff are now getting awards
         # view all awards that also have a drama title attached to it
+        up_aid = input('what is the award id you wish to update')
         up_rev_title = input('what is the title of the drama that won an award that you wish to update: ')
         # PROCEDURE that returns all the award info of dramas that pop up with given title
-
 
     if menu == '7':
         # prints all dramas first, so that user can choose
         all_kdramas(cur)
         print('Delete a drama')
+        del_did = input('Type in the drama id of the drama you wish to delte: ')
         del_drama = input('Type in the title of the drama you wish to delete: ')
-        select = f'SELECT * FROM kdrama WHERE drama_title = \'{del_drama}\''
+        select = f'SELECT * FROM kdrama WHERE drama_id = \'{del_did}\''
         try:
             cur.execute(select)
             print(cur.fetchall())
@@ -269,8 +289,7 @@ while keepRunning:
             exit()
         del_confirm = input('Type YES to confirm that you wish to delete this drama: ')
         if del_confirm == 'YES':
-            # DELETE DRAMA PROCEDURE
-            delete_drama = f'CALL delete_kdrama(\'{del_drama}\')'
+            delete_drama = f'CALL delete_kdrama(\'{del_drama}\', \'{del_did}\')'
             try:
                 # executes the procedure
                 cur.execute(delete_drama)
