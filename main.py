@@ -83,6 +83,144 @@ def all_reviews(cursor):
         print('SELECT failed %s Error: %d: %s' % (reviews, e.args[0], e.args[1]))
 
 
+def filter_menu(fil_menu):
+    if fil_menu == '1':
+        print('Do you want to find kdrama\'s through:\n'
+              '(1)title\n'
+              '(2)actor\n'
+              '(3)year\n'
+              '(4)station\n'
+              '(5)rating\n'
+              '(6)go back')
+        dra_menu = input('Choose a menu option: ')
+        if dra_menu == '1':
+            fil_title = input('Type in a title of kdrama you want to search for: ')
+
+            read_dtitle = f'CALL find_drama_title(\'{fil_title}\')'
+            try:
+                cur.execute(read_dtitle)
+                print('results are...')
+                rows = cur.fetchall()  # new
+                for row in rows:
+                    print(row)
+            except pymysql.Error as e:
+                print('no results!')
+                print('SELECT failed %s Error: %d: %s' % (read_dtitle, e.args[0], e.args[1]))
+
+        elif dra_menu == '2':
+            fil_actor = input('Type in an actor that appeared in the drama you want to find: ')
+
+            read_dactor = f'CALL find_drama_actor(\'{fil_actor}\')'
+            try:
+                cur.execute(read_dactor)
+                print('results are...')
+                rows = cur.fetchall()  # new
+                for row in rows:
+                    print(row)
+            except pymysql.Error as e:
+                print('no results!')
+                print('SELECT failed %s Error: %d: %s' % (read_dactor, e.args[0], e.args[1]))
+
+        elif dra_menu == '3':
+            fil_year = input('Type in a year that the drama was aired in: ')
+
+            read_dyear = f'CALL find_drama_year({fil_year})'
+            try:
+                cur.execute(read_dyear)
+                print('results are...')
+                rows = cur.fetchall()  # new
+                for row in rows:
+                    print(row)
+            except pymysql.Error as e:
+                print('no results!')
+                print('SELECT failed %s Error: %d: %s' % (read_dyear, e.args[0], e.args[1]))
+
+        elif dra_menu == '4':
+            fil_station = input('Type in a station a drama aired on: ')
+
+            read_dstation = f'CALL find_drama_station(\'{fil_station}\')'
+            try:
+                cur.execute(read_dstation)
+                print('results are...')
+                rows = cur.fetchall()  # new
+                for row in rows:
+                    print(row)
+            except pymysql.Error as e:
+                print('no results!')
+                print('SELECT failed %s Error: %d: %s' % (read_dstation, e.args[0], e.args[1]))
+
+        elif dra_menu == '5':
+            fil_rating = input('Type in a rating from 1 to 10 a drama has: ')
+
+            read_drating = f'CALL find_drama_rating(\'{fil_rating}\')'
+            try:
+                cur.execute(read_drating)
+                print('results are...')
+                rows = cur.fetchall()  # new
+                for row in rows:
+                    print(row)
+            except pymysql.Error as e:
+                print('no results!')
+                print('SELECT failed %s Error: %d: %s' % (read_drating, e.args[0], e.args[1]))
+
+        else:
+            print('Returning to previous menu...')
+
+    elif fil_menu == '2':
+        print('Do you want to find actor\'s through:\n'
+              '(1)name\n'
+              '(2)dramas\n'
+              '(3)year\n'
+              '(4)go back\n')
+        act_menu = input('Choose a menu option: ')
+        if act_menu == '1':
+            fil_name = input('Type in the name of the actor you want to find: ')
+
+            read_aname = f'CALL find_actor_name(\'{fil_name}\')'
+            try:
+                cur.execute(read_aname)
+                print('results are...')
+                rows = cur.fetchall()  # new
+                for row in rows:
+                    print(row)
+            except pymysql.Error as e:
+                print('no results!')
+                print('SELECT failed %s Error: %d: %s' % (read_aname, e.args[0], e.args[1]))
+
+        elif act_menu == '2':
+            fil_drama = input('Type in a drama to find actors who have appeared in the drama: ')
+
+            read_adrama = f'CALL find_actor_drama(\'{fil_drama}\')'
+            try:
+                cur.execute(read_adrama)
+                print('results are...')
+                rows = cur.fetchall()  # new
+                for row in rows:
+                    print(row)
+            except pymysql.Error as e:
+                print('no results!')
+                print('SELECT failed %s Error: %d: %s' % (read_adrama, e.args[0], e.args[1]))
+
+        elif act_menu == '3':
+            fil_ayear = input('Type in a year the actor was born in (YYYY format): ')
+
+            read_ayear = f'CALL find_actor_year({fil_ayear})'
+            try:
+                cur.execute(read_ayear)
+                print('results are...')
+                rows = cur.fetchall()  # new
+                for row in rows:
+                    print(row)
+            except pymysql.Error as e:
+                print('no results!')
+                print('SELECT failed %s Error: %d: %s' % (read_ayear, e.args[0], e.args[1]))
+        else:
+            print('Returning to previous menu...')
+
+    else:
+        print('Returning to previous menu...')
+
+
 try:
     user = input('Enter in your username: ')
     password = input('Enter in your password: ')
@@ -110,8 +248,9 @@ print('Here you can:\n'
       '(9)see all kdramas available\n'
       '(10)see all staff\n'
       '(11)see all reviews\n'
-      '(12)select kdramas or actor through filters\n'
-      '(13)quit program')
+      '(12)see all awards\n'
+      '(13)select kdramas or actor through filters\n'
+      '(14)quit program')
 keepRunning = True
 while keepRunning:
     menu = input('Choose a menu option: ')
@@ -122,7 +261,7 @@ while keepRunning:
         rating = input('Type in the drama\'s rating from 1 - 10 : ')
         year = input('Type in the year the drama was released: ')
         print(year)
-        if year == '':
+        if year == '\n':
             year == 'NULL'
         num_eps = input('Type in the number of episodes the drama had: ')
         synopsis = input('Type in the dramas synopsis: ')
@@ -182,8 +321,6 @@ while keepRunning:
             char_1_name = input(f'Type in the {act_1_name}\'s character\'s name: ')
             char_1_role = input('Type in the character\'s role: ')
 
-           # up_1_date = datetime.strptime(act_1_birth, '%Y-%m-%d').date()
-
             create_actor_char = f'CALL create_character_connect_actor(\'{title}\', \'{act_1_name}\',' \
                                 f' \'{char_1_name}\', \'{char_1_role}\', \'{act_1_birth}\', \'{act_1_desc}\')'
             try:
@@ -198,7 +335,6 @@ while keepRunning:
             char_2_name = input(f'Type in the {act_1_name}\'s character\'s name: ')
             char_2_role = input('Type in the character\'s role: ')
 
-            #up_2_date = datetime.strptime(act_2_birth, '%Y-%m-%d').date()
             create_actor_char = f'CALL create_character_connect_actor(\'{title}\', \'{act_2_name}\',' \
                                 f' \'{char_2_name}\', \'{char_2_role}\', \'{act_2_birth}\', \'{act_2_desc}\')'
             try:
@@ -321,7 +457,6 @@ while keepRunning:
         all_kdramas(cur)
         print('--------Delete a drama--------')
         del_did = input('Type in the drama id of the drama you wish to delte: ')
-        #del_drama = input('Type in the title of the drama you wish to delete: ')
 
         select = f'SELECT * FROM kdrama WHERE drama_id = \'{del_did}\''
         try:
@@ -385,150 +520,19 @@ while keepRunning:
     elif menu == '11': # view all reviews
         all_reviews(cur)
 
-    elif menu == '12':
+    elif menu == '12': # view all awards
+        all_awards(cur)
+
+    elif menu == '13':
         print('--------Search through kdrama database--------')
         print('Do you want to search through:\n'
               '(1)kdramas\n'
               '(2)actors\n'
               '(3)return to menu')
         fil_menu = input('Choose a menu option: ')
-        if fil_menu == '1':
-            print('Do you want to find kdrama\'s through:\n'
-                  '(1)title\n'
-                  '(2)actor\n'
-                  '(3)year\n'
-                  '(4)station\n'
-                  '(5)rating\n'
-                  '(6)go back')
-            dra_menu = input('Choose a menu option: ')
-            if dra_menu == '1':
-                fil_title = input('Type in a title of kdrama you want to search for: ')
+        filter-menu(fil_menu)
 
-                read_dtitle = f'CALL find_drama_title(\'{fil_title}\')'
-                try:
-                    cur.execute(read_dtitle)
-                    print('results are...')
-                    rows = cur.fetchall()  # new
-                    for row in rows:
-                        print(row)
-                except pymysql.Error as e:
-                    print('no results!')
-                    print('SELECT failed %s Error: %d: %s' % (read_dtitle, e.args[0], e.args[1]))
-
-            elif dra_menu == '2':
-                fil_actor = input('Type in an actor that appeared in the drama you want to find: ')
-
-                read_dactor = f'CALL find_drama_actor(\'{fil_actor}\')'
-                try:
-                    cur.execute(read_dactor)
-                    print('results are...')
-                    rows = cur.fetchall()  # new
-                    for row in rows:
-                        print(row)
-                except pymysql.Error as e:
-                    print('no results!')
-                    print('SELECT failed %s Error: %d: %s' % (read_dactor, e.args[0], e.args[1]))
-
-            elif dra_menu == '3':
-                fil_year = input('Type in a year that the drama was aired in: ')
-
-                read_dyear = f'CALL find_drama_year({fil_year})'
-                try:
-                    cur.execute(read_dyear)
-                    print('results are...')
-                    rows = cur.fetchall()  # new
-                    for row in rows:
-                        print(row)
-                except pymysql.Error as e:
-                    print('no results!')
-                    print('SELECT failed %s Error: %d: %s' % (read_dyear, e.args[0], e.args[1]))
-
-            elif dra_menu == '4':
-                fil_station = input('Type in a station a drama aired on: ')
-
-                read_dstation = f'CALL find_drama_station(\'{fil_station}\')'
-                try:
-                    cur.execute(read_dstation)
-                    print('results are...')
-                    rows = cur.fetchall()  # new
-                    for row in rows:
-                        print(row)
-                except pymysql.Error as e:
-                    print('no results!')
-                    print('SELECT failed %s Error: %d: %s' % (read_dstation, e.args[0], e.args[1]))
-
-            elif dra_menu == '5':
-                fil_rating = input('Type in a rating from 1 to 10 a drama has: ')
-
-                read_drating = f'CALL find_drama_rating(\'{fil_rating}\')'
-                try:
-                    cur.execute(read_drating)
-                    print('results are...')
-                    rows = cur.fetchall()  # new
-                    for row in rows:
-                        print(row)
-                except pymysql.Error as e:
-                    print('no results!')
-                    print('SELECT failed %s Error: %d: %s' % (read_drating, e.args[0], e.args[1]))
-
-            else:
-                print('Returning to previous menu...')
-
-        elif fil_menu == '2':
-            print('Do you want to find actor\'s through:\n'
-                  '(1)name\n'
-                  '(2)dramas\n'
-                  '(3)year\n'
-                  '(4)go back\n')
-            act_menu = input('Choose a menu option: ')
-            if act_menu == '1':
-                fil_name = input('Type in the name of the actor you want to find: ')
-
-                read_aname = f'CALL find_actor_name(\'{fil_name}\')'
-                try:
-                    cur.execute(read_aname)
-                    print('results are...')
-                    rows = cur.fetchall()  # new
-                    for row in rows:
-                        print(row)
-                except pymysql.Error as e:
-                    print('no results!')
-                    print('SELECT failed %s Error: %d: %s' % (read_aname, e.args[0], e.args[1]))
-
-            elif act_menu == '2':
-                fil_drama = input('Type in a drama to find actors who have appeared in the drama: ')
-
-                read_adrama = f'CALL find_actor_drama(\'{fil_drama}\')'
-                try:
-                    cur.execute(read_adrama)
-                    print('results are...')
-                    rows = cur.fetchall()  # new
-                    for row in rows:
-                        print(row)
-                except pymysql.Error as e:
-                    print('no results!')
-                    print('SELECT failed %s Error: %d: %s' % (read_adrama, e.args[0], e.args[1]))
-
-            elif act_menu == '3':
-                fil_ayear = input('Type in a year the actor was born in (YYYY format): ')
-
-                read_ayear = f'CALL find_actor_year({fil_ayear})'
-                try:
-                    cur.execute(read_ayear)
-                    print('results are...')
-                    rows = cur.fetchall()  # new
-                    for row in rows:
-                        print(row)
-                except pymysql.Error as e:
-                    print('no results!')
-                    print('SELECT failed %s Error: %d: %s' % (read_ayear, e.args[0], e.args[1]))
-            else:
-                print('Returning to previous menu...')
-
-        else:
-            print('Returning to previous menu...')
-
-    elif menu == '13':
+    elif menu == '14':
         print('Closing out of program...')
         cnx.close()
         keepRunning = False
@@ -549,5 +553,6 @@ while keepRunning:
           '(9)see all kdramas available\n'
           '(10)see all staff\n'
           '(11)see all reviews\n'
-          '(12)select kdramas or actor through filters\n'
-          '(13)quit program')
+          '(12)see all awards\n'
+          '(13)select kdramas or actor through filters\n'
+          '(14)quit program')
